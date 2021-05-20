@@ -12,6 +12,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import { format } from 'date-fns';
 import Avatar from '@material-ui/core/Avatar';
+import { pink } from '@material-ui/core/colors';
 
 const drawerWidth = 200
 
@@ -20,7 +21,7 @@ const useStyles = makeStyles((theme)=>{
         page:{
             backgroundColor: '#f9f9f9',
             width: '100%',
-            padding: theme.spacing(3)
+            padding: theme.spacing(3),
         },
         drawer:{
             width: drawerWidth,
@@ -36,6 +37,17 @@ const useStyles = makeStyles((theme)=>{
         },
         title:{
             padding: theme.spacing(2),
+        },
+        appbar:{
+            width:`calc(100% - ${drawerWidth}px)`,
+            backgroundColor: pink[100]
+        },
+        toolbar:theme.mixins.toolbar,
+        date: {
+            flexGrow: 1,
+        },
+        avatar:{
+            marginLeft: theme.spacing(2)
         }
     }
  });
@@ -62,6 +74,17 @@ export default function Layout({children}){
 
     return(
         <div className={classes.root}>
+            <AppBar className={classes.appbar}>
+                <Toolbar>
+                    <Typography className={classes.date}>
+                      Today Is The {format(new Date(), 'do MMM Y')}
+                    </Typography>
+                    <Typography>
+                      Maria
+                    </Typography>
+                    <Avatar src='/favicon.ico' className={classes.avatar}/>
+                </Toolbar>
+            </AppBar>
             <Drawer 
             variant= 'permanent' 
             anchor= 'left' 
@@ -69,7 +92,7 @@ export default function Layout({children}){
             classes={{paper: classes.drawerPaper}}
             >
              <div>
-              <Typography variant= 'h5' classname={classes.title}>
+              <Typography variant= 'h5' classname={classes.title} color='secondary'>
                   Sam Notes
               </Typography>
             </div>
@@ -87,6 +110,7 @@ export default function Layout({children}){
             </List>
             </Drawer>
             <div className={classes.page}>
+                <div className={classes.toolbar}></div>
                 {children}
             </div>
         </div>
